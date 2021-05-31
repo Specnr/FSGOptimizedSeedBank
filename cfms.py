@@ -7,9 +7,12 @@ from multiprocessing import Process
 key_pressed = False
 
 
-def display_seed(seed_data):
-    print(f"Seed Found({seed_data['iso']}): {seed_data['seed']}")
-    print(f"Signature: {seed_data['signature']}\n")
+def display_seed(verif_data, seed):
+    if (seed == ""):
+        print("Seed Timed Out\n")
+    else:
+        print(f"Seed Found({verif_data['iso']}): {seed}")
+        print(f"Temp Token: {verif_data}\n")
 
 
 def run_seed(filter):
@@ -21,9 +24,7 @@ def run_seed(filter):
     pref = res_json.get("pref")  # village and/or shipwreck preference
     cmd = f'./bh {sseed} {sclass} {randbiome} {pref}'
     seed = os.popen(cmd).read().strip()
-    # Seed is None iff bh times out
-    res_json["seed"] = int(seed) if seed != "" else None
-    display_seed(res_json)
+    display_seed(res_json, seed)
 
 
 def start_run(max_processes):
