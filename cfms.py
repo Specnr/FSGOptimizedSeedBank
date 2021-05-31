@@ -4,8 +4,6 @@ import requests
 import json
 from multiprocessing import Process
 
-key_pressed = False
-
 
 def display_seed(verif_data, seed):
     if (seed == ""):
