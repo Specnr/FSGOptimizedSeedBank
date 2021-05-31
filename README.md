@@ -11,6 +11,7 @@ Setup:
 
 Running: 
 - Run `python3 cfms.py NUM_THREADS` where `NUM_THREADS` is the desired number of threads
+
 Note: After playing a few seeds press `Enter` to restart finished processes.
 
 ## Disclaimer
