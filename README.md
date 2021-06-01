@@ -1,6 +1,6 @@
 # FSGOptimizedSeedBank
 
-An efficient multiSeed & findSeed implementations for the FSG seed bank
+Efficient multiSeed & findSeed implementations for the FSG seed bank
 
 ## Instructions
 
