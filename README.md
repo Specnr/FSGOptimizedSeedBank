@@ -1,6 +1,6 @@
-# FSGMultiSeedBank
+# FSGOptimizedSeedBank
 
-An efficient multiseed implementation of the FSG seed bank
+An efficient multiSeed & findSeed implementations for the FSG seed bank
 
 ## Instructions
 
@@ -15,13 +15,14 @@ Setup:
 
 Running:
 
-- Run `python3 cfms.py NUM_THREADS` where `NUM_THREADS` is the desired number of threads
+- multiSeed: Run `python3 multiSeed.py NUM_THREADS` where `NUM_THREADS` is the desired number of threads
+- findSeed: Run `python3 findSeed.py NUM_THREADS` where `NUM_THREADS` is the desired number of threads
 
-Note: After playing a few seeds press `Enter` a few times to restart finished processes.
+Note: If running multiSeed, after playing a few seeds press `Enter` a few times to restart finished processes.
 
 ## Disclaimer
 
-For verification purposes you are REQUIRED to play these seeds immediately after one another. If you have to take a break, kill the process with `Ctrl+C` and restart it
+For verification purposes with multiSeed, you are REQUIRED to play seeds immediately after one another. If you have to take a break, kill the process with `Ctrl+C` and restart it
 when you come back
 
 ## Credit
