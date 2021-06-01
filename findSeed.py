@@ -26,6 +26,7 @@ def run_seed(filter):
 
 
 def start_run(max_processes):
+	print("FindSeed has started...\n")
     with open('filter.json') as filter_json:
         filter = json.load(filter_json)["filter"]
     processes = []
