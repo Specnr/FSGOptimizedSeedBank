@@ -12,12 +12,12 @@ Setup:
 - Run `pip3 install requests`
 - Run `chmod +x bh`
 - Play around on [Andy's website](https://seedbankcustom.andynovo.repl.co/) to find a filter that works for you, and copy the filter code (should look something like this `000A000A00000000000A000A00000000000A000A00000000000A000A000000000`)
-- Open filter.json and replace the current code with your own
+- Open settings.json and replace the current code with your own, as well as the number of threads you want to allocate
 
 Running:
 
-- multiSeed: Run `python3 multiSeed.py NUM_THREADS` where `NUM_THREADS` is the desired number of threads
-- findSeed: Run `python3 findSeed.py NUM_THREADS` where `NUM_THREADS` is the desired number of threads
+- multiSeed: Run `python3 multiSeed.py`
+- findSeed: Run `python3 findSeed.py`
 
 Note: If running multiSeed, after playing a few seeds press `Enter` a few times to restart finished processes.
 
