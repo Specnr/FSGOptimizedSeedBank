@@ -1,6 +1,6 @@
 # FSGOptimizedSeedBank
 
-An efficient multiSeed & findSeed implementations for the FSG seed bank
+Efficient multiSeed & findSeed implementations for the FSG seed bank
 
 ## Instructions
 
@@ -29,4 +29,4 @@ when you come back
 ## Credit
 
 - @AndyNovo the code behind the actual logic https://github.com/AndyNovo/fsgsrc
-- @Specnr the code behind efficiently gluing the code together (cfms.py)
+- @Specnr the code behind efficiently executing the seedfinding code (findSeed.py && multiSeed.py)
