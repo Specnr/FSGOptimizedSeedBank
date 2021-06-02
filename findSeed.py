@@ -3,6 +3,8 @@ import sys
 import requests
 import json
 from multiprocessing import Process
+import subprocess
+import signal
 
 
 def display_seed(verif_data, seed):
@@ -25,12 +27,14 @@ def run_seed(filter):
     display_seed(res_json, seed)
 
 
-def start_run(max_processes):
-	print("FindSeed has started...\n")
-    with open('filter.json') as filter_json:
-        filter = json.load(filter_json)["filter"]
+def start_run():
+    print("FindSeed has started...\n")
+    with open('settings.json') as filter_json:
+        read_json = json.load(filter_json)
+        filter = read_json["filter"]
+        num_processes = read_json["thread_count"]
     processes = []
-    for i in range(max_processes):
+    for i in range(num_processes):
         processes.append(Process(target=run_seed, args=(filter,)))
         processes[-1].start()
     i = 0
@@ -39,10 +43,15 @@ def start_run(max_processes):
             if not processes[j].is_alive():
                 for k in range(len(processes)):
                     processes[k].kill()
+                    p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
+                    out, err = p.communicate()
+                    for line in out.splitlines():
+                        if b'bh' in line:
+                            pid = int(line.split(None, 1)[0])
+                            os.kill(pid, signal.SIGKILL)
                 return
-        i = (i + 1) % max_processes
+        i = (i + 1) % num_processes
 
 
 if __name__ == '__main__':
-    PROCESSES_COUNT = int(sys.argv[1]) if len(sys.argv) >= 2 else 4
-    start_run(PROCESSES_COUNT)
+    start_run()

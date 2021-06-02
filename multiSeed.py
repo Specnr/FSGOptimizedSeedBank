@@ -25,12 +25,14 @@ def run_seed(filter):
     display_seed(res_json, seed)
 
 
-def start_run(max_processes):
-	print("MultiSeed has started...\n")
-    with open('filter.json') as filter_json:
-        filter = json.load(filter_json)["filter"]
+def start_run():
+    print("MultiSeed has started...\n")
+    with open('settings.json') as filter_json:
+        read_json = json.load(filter_json)
+        filter = read_json["filter"]
+        num_processes = read_json["thread_count"]
     processes = []
-    for i in range(max_processes):
+    for i in range(num_processes):
         processes.append(Process(target=run_seed, args=(filter,)))
         processes[-1].start()
     i = 0
@@ -41,14 +43,13 @@ def start_run(max_processes):
                 to_remove.append(j)
         for j in range(len(to_remove)):
             processes.pop(to_remove[j] - j)
-        if len(processes) < max_processes and sys.stdin.readline() == '\n':
-            to_add = max_processes - len(processes)
+        if len(processes) < num_processes and sys.stdin.readline() == '\n':
+            to_add = num_processes - len(processes)
             for j in range(to_add):
                 processes.append(Process(target=run_seed, args=(filter,)))
                 processes[-1].start()
-        i = (i + 1) % max_processes
+        i = (i + 1) % num_processes
 
 
 if __name__ == '__main__':
-    PROCESSES_COUNT = int(sys.argv[1]) if len(sys.argv) >= 2 else 4
-    start_run(PROCESSES_COUNT)
+    start_run()
