@@ -6,7 +6,7 @@ An efficient, single-click implementation for the FSG seed bank
 
 Setup:
 
-Tutorial video - COMING SOON
+Tutorial video: https://youtu.be/qwLJZ89vgq0
 
 - Download the latest release zip from [the releases page](https://github.com/Specnr/FSGOptimizedSeedBank/releases)
 - Download AutoHotkey from [their website](https://www.autohotkey.com/)
