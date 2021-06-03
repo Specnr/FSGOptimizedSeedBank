@@ -12,8 +12,6 @@ global SavesDirectory = "C:\Users\PodX1\AppData\Roaming\.minecraft\saves\" ; Rep
 IfNotExist, %SavesDirectory%_oldWorlds
     FileCreateDir, %SavesDirectory%_oldWorlds
 
-;Adjust the threads based on your PC and how quick you want to find a GetSeed()
-
 ;https://seedbankcustom.andynovo.repl.co/ to adjust your filter update inside filters.json
 ;TO EDIT YOUR FILTER
 ;GOTO https://seedbankcustom.andynovo.repl.co/
@@ -36,7 +34,6 @@ FindSeed(){
 
         ComObjCreate("SAPI.SpVoice").Speak("SebyTheGod")
 
-
         RunWait, wsl.exe python3 ./findSeed.py > fsg_seed_token.txt,, hide
         FileRead, fsg_seed_token, fsg_seed_token.txt
 
@@ -49,7 +46,7 @@ FindSeed(){
         WinActivate, Minecraft
         Sleep, 100
         ;ComObjCreate("SAPI.SpVoice").Speak("Seed Found")
-        FSGCreateWorld()
+        FSGCreateWorld() ;Change to FSGFastCreateWorld() if you want an optimized macro
     } else {
         MsgBox % "Minecraft is not open, open Minecraft and run agian."
     }
@@ -113,6 +110,25 @@ FSGCreateWorld(){
     Send, {enter}
 }
 
+FSGFastCreateWorld(){
+    SetKeyDelay, 0
+    send {Esc}{Esc}{Esc}
+    send {Tab}{Enter}
+    SetKeyDelay, 45 ; Fine tune for your PC/comfort level
+    send {Tab}
+    SetKeyDelay, 0
+    send {Tab}{Tab}{Enter}
+    send ^a
+    send ^v
+    send {Tab}{Tab}{Enter}{Enter}{Enter}{Tab}{Tab}{Tab}
+    SetKeyDelay, 45 ; Fine tune for your PC/comfort level
+    send {Tab}{Enter}
+    SetKeyDelay, 0
+    send {Tab}{Tab}{Tab}^v{Shift}+{Tab}
+    SetKeyDelay, 45 ; Fine tune for your PC/comfort level
+    send {Shift}+{Tab}{Enter}
+}
+
 ExitWorld()
 {
     send {Esc}+{Tab}{Enter}
@@ -127,7 +143,15 @@ ExitWorld()
     }
 }
 
-F10::
-    GetSeed()
-return
+#IfWinActive, Minecraft
+    {
 
+        F10::
+            GetSeed()
+        return
+
+        F11::
+            ExitWorld()
+        return
+
+    }
