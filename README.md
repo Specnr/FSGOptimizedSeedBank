@@ -11,8 +11,9 @@ Tutorial video - COMING SOON
 - Download the latest release zip from [the releases page](https://github.com/Specnr/FSGOptimizedSeedBank/releases)
 - Download AutoHotkey from [their website](https://www.autohotkey.com/)
 - Download WSL from [this link](https://ubuntu.com/wsl) & open it
-- Run `sudo apt install python3-pip`
-- Run `pip3 install requests`
+- Run `sudo su` then `apt update`
+- Run `apt install python3-pip`
+- Run `apt install openjdk-11-jre-headless`
 - Run `chmod +x bh`
 - Play around on [Andy's website](https://seedbankcustom.andynovo.repl.co/) to find a filter that works for you, and copy the filter code (should look something like this `000A000A00000000000A000A00000000000A000A00000000000A000A000000000`)
 - Open settings.json and replace the current code with your own, as well as the number of threads you want to allocate
