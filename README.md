@@ -1,13 +1,16 @@
 # FSGOptimizedSeedBank
 
-Efficient multiSeed & findSeed implementations for the FSG seed bank
+An efficient, single-click implementation for the FSG seed bank
 
 ## Instructions
 
 Setup:
 
-- Download the latest release zip from [the releases page](https://github.com/Specnr/FSGMultiSeedBank/releases)
-- Download WSL (Assuming you're on windows) if you haven't already
+Tutorial video - COMING SOON
+
+- Download the latest release zip from [the releases page](https://github.com/Specnr/FSGOptimizedSeedBank/releases)
+- Download AutoHotkey from [their website](https://www.autohotkey.com/)
+- Download WSL from [this link](https://ubuntu.com/wsl) & open it
 - Run `sudo apt install python3-pip`
 - Run `pip3 install requests`
 - Run `chmod +x bh`
@@ -17,15 +20,7 @@ Setup:
 
 Running:
 
-- multiSeed: Run `python3 multiSeed.py`
-- findSeed: Run `python3 findSeed.py`
-
-Note: If running multiSeed, after playing a few seeds press `Enter` a few times to restart finished processes.
-
-## Disclaimer
-
-For verification purposes with multiSeed, you are REQUIRED to play seeds immediately after one another. If you have to take a break, kill the process with `Ctrl+C` and restart it
-when you come back
+- Run the FSG_Macro.ahk, load into Minecraft and press F10. Latest verification details will be found in fsg_seed_token.txt
 
 ## Credit
 
