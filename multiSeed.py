@@ -6,22 +6,23 @@ from multiprocessing import Process
 
 
 def display_seed(verif_data, seed):
-    if (seed == ""):
-        print("Seed Timed Out\n")
-    else:
-        print(f"Seed Found({verif_data['iso']}): {seed}")
-        print(f"Temp Token: {verif_data}\n")
+    print(f"Seed Found({verif_data['iso']}): {seed}")
+    print(f"Temp Token: {verif_data}\n")
 
 
 def run_seed(filter):
-    resp = requests.get(f"http://fsg.gel.webfactional.com?filter={filter}")
-    res_json = resp.json()
-    sseed = res_json.get("struct")
-    sclass = res_json.get("class")
-    randbiome = res_json.get("randbiome")
-    pref = res_json.get("pref")  # village and/or shipwreck preference
-    cmd = f'./bh {sseed} {sclass} {randbiome} {pref}'
-    seed = os.popen(cmd).read().strip()
+    seed = ""
+    while seed == "":
+        resp = requests.get(f"http://fsg.gel.webfactional.com?filter={filter}")
+        res_json = resp.json()
+        sseed = res_json.get("struct")
+        sclass = res_json.get("class")
+        randbiome = res_json.get("randbiome")
+        pref = res_json.get("pref")  # village and/or shipwreck preference
+        cmd = f'./bh {sseed} {sclass} {randbiome} {pref}'
+        seed = os.popen(cmd).read().strip()
+        if (seed == ""):
+            print("Seed Timed Out\n")
     display_seed(res_json, seed)
 
 
