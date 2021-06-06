@@ -5,6 +5,7 @@ SetWorkingDir, %A_ScriptDir%
 SetKeyDelay, 50
 
 global next_seed = ""
+global token = ""
 
 IfNotExist, fsg_tokens
     FileCreateDir, fsg_tokens
@@ -22,39 +23,60 @@ IfNotExist, %SavesDirectory%_oldWorlds
 ;
 
 ;HOW TO GET YOUR TOKEN
-;All seeds and verification data will be stored into the folder fsg_tokens with the name 
+;When you press your macro to GetSeed it will create a file called fsg_seed_token.txt
+;This has the seed and the token.
+;
+;All past seeds and verification data will be stored into the folder fsg_tokens with the name 
 ;fsg_seed_token followed by a date and time e.g. 123456789_2021261233.txt
 
-GenerateSeed() {
-    RunWait, wsl.exe python3 ./findSeed.py > tmp,, hide
-    FileRead, fsg_seed_token, tmp
+RunHide(Command) {
+    dhw := A_DetectHiddenWindows
+    DetectHiddenWindows, On
+    Run, %ComSpec%,, Hide, cPid
+    WinWait, ahk_pid %cPid%
+    DetectHiddenWindows, %dhw%
+    DllCall("AttachConsole", "uint", cPid)
 
+    Shell := ComObjCreate("WScript.Shell")
+    Exec := Shell.Exec(Command)
+    Result := Exec.StdOut.ReadAll()
+
+    DllCall("FreeConsole")
+    Process, Close, %cPid%
+    Return Result
+}
+
+GenerateSeed() {
+    fsg_seed_token := RunHide("wsl.exe python3 ./findSeed.py")
     fsg_seed_token_array := StrSplit(fsg_seed_token, ["Seed Found", "Temp Token"]) 
     fsg_seed_array := StrSplit(fsg_seed_token_array[2], A_Space)
     fsg_seed := Trim(fsg_seed_array[2])
-    if FileExist("tmp"){
-        FileMoveDir, tmp, fsg_tokens\fsg_seed_token_%A_NowUTC%.txt, R
-    }
-    return fsg_seed
+    return {seed: fsg_seed, token: fsg_seed_token}
 }
 
 FindSeed(){
     if WinExist("Minecraft"){
         if (next_seed = "") {
             ComObjCreate("SAPI.SpVoice").Speak("Searching")
-            fsg_seed := GenerateSeed()
+            output := GenerateSeed()
+            next_seed := output["seed"]
+            token := output["token"]
             ComObjCreate("SAPI.SpVoice").Speak("Seed Found")
         } else {
             ComObjCreate("SAPI.SpVoice").Speak("Loading")
-            fsg_seed := next_seed
         }
-
-        clipboard = %fsg_seed%
+        if FileExist("fsg_seed_token.txt"){
+            FileMoveDir, fsg_seed_token.txt, fsg_tokens\fsg_seed_token_%A_NowUTC%.txt, R
+        }
+        clipboard = %next_seed%
 
         WinActivate, Minecraft
         Sleep, 100
         FSGCreateWorld() ;Change to FSGFastCreateWorld() if you want an optimized macro
-        next_seed := GenerateSeed()
+        FileAppend, %token%, fsg_seed_token.txt
+        output := GenerateSeed()
+        next_seed := output["seed"]
+        token := output["token"]
     } else {
         MsgBox % "Minecraft is not open, open Minecraft and run agian."
     }
