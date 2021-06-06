@@ -4,6 +4,8 @@
 SetWorkingDir, %A_ScriptDir%
 SetKeyDelay, 50
 
+global next_seed = ""
+
 IfNotExist, fsg_tokens
     FileCreateDir, fsg_tokens
 
@@ -20,33 +22,39 @@ IfNotExist, %SavesDirectory%_oldWorlds
 ;
 
 ;HOW TO GET YOUR TOKEN
-;When you press your macro to GetSeed it will create a file called fsg_seed_token.txt
-;This has the seed and the token.
-;
-;Any past run seeds will be stored into the folder fsg_tokens with the name 
+;All seeds and verification data will be stored into the folder fsg_tokens with the name 
 ;fsg_seed_token followed by a date and time e.g. 123456789_2021261233.txt
+
+GenerateSeed() {
+    RunWait, wsl.exe python3 ./findSeed.py > tmp,, hide
+    FileRead, fsg_seed_token, tmp
+
+    fsg_seed_token_array := StrSplit(fsg_seed_token, ["Seed Found", "Temp Token"]) 
+    fsg_seed_array := StrSplit(fsg_seed_token_array[2], A_Space)
+    fsg_seed := Trim(fsg_seed_array[2])
+    if FileExist("tmp"){
+        FileMoveDir, tmp, fsg_tokens\fsg_seed_token_%A_NowUTC%.txt, R
+    }
+    return fsg_seed
+}
 
 FindSeed(){
     if WinExist("Minecraft"){
-        if FileExist("fsg_seed_token.txt"){
-            FileMoveDir, fsg_seed_token.txt, fsg_tokens\fsg_seed_token_%A_NowUTC%.txt, R
+        if (next_seed = "") {
+            ComObjCreate("SAPI.SpVoice").Speak("Searching")
+            fsg_seed := GenerateSeed()
+            ComObjCreate("SAPI.SpVoice").Speak("Seed Found")
+        } else {
+            ComObjCreate("SAPI.SpVoice").Speak("Loading")
+            fsg_seed := next_seed
         }
-
-        ComObjCreate("SAPI.SpVoice").Speak("SebyTheGod")
-
-        RunWait, wsl.exe python3 ./findSeed.py > fsg_seed_token.txt,, hide
-        FileRead, fsg_seed_token, fsg_seed_token.txt
-
-        fsg_seed_token_array := StrSplit(fsg_seed_token, ["Seed Found", "Temp Token"]) 
-        fsg_seed_array := StrSplit(fsg_seed_token_array[2], A_Space)
-        fsg_seed := Trim(fsg_seed_array[2])
 
         clipboard = %fsg_seed%
 
         WinActivate, Minecraft
         Sleep, 100
-        ;ComObjCreate("SAPI.SpVoice").Speak("Seed Found")
         FSGCreateWorld() ;Change to FSGFastCreateWorld() if you want an optimized macro
+        next_seed := GenerateSeed()
     } else {
         MsgBox % "Minecraft is not open, open Minecraft and run agian."
     }
