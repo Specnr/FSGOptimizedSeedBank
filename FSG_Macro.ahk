@@ -62,8 +62,6 @@ FindSeed(){
             next_seed := output["seed"]
             token := output["token"]
             ComObjCreate("SAPI.SpVoice").Speak("Seed Found")
-        } else {
-            ComObjCreate("SAPI.SpVoice").Speak("Loading")
         }
         if FileExist("fsg_seed_token.txt"){
             FileMoveDir, fsg_seed_token.txt, fsg_tokens\fsg_seed_token_%A_NowUTC%.txt, R
