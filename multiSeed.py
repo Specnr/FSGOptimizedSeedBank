@@ -21,8 +21,6 @@ def run_seed(filter):
         pref = res_json.get("pref")  # village and/or shipwreck preference
         cmd = f'./bh {sseed} {sclass} {randbiome} {pref}'
         seed = os.popen(cmd).read().strip()
-        if (seed == ""):
-            print("Seed Timed Out\n")
     display_seed(res_json, seed)
 
 
