@@ -6,6 +6,7 @@ SetKeyDelay, 50
 
 global next_seed = ""
 global token = ""
+global timestamp = 0
 
 IfNotExist, fsg_tokens
     FileCreateDir, fsg_tokens
@@ -48,6 +49,7 @@ RunHide(Command) {
 
 GenerateSeed() {
     fsg_seed_token := RunHide("wsl.exe python3 ./findSeed.py")
+    timestamp := A_NowUTC
     fsg_seed_token_array := StrSplit(fsg_seed_token, ["Seed Found", "Temp Token"]) 
     fsg_seed_array := StrSplit(fsg_seed_token_array[2], A_Space)
     fsg_seed := Trim(fsg_seed_array[2])
@@ -56,7 +58,7 @@ GenerateSeed() {
 
 FindSeed(){
     if WinExist("Minecraft"){
-        if (next_seed = "") {
+        if (next_seed = "" || A_NowUTC - timestamp > 30) {
             ComObjCreate("SAPI.SpVoice").Speak("Searching")
             output := GenerateSeed()
             next_seed := output["seed"]
