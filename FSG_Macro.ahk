@@ -56,9 +56,9 @@ GenerateSeed() {
     return {seed: fsg_seed, token: fsg_seed_token}
 }
 
-FindSeed(){
+FindSeed(resetFromWorld){
     if WinExist("Minecraft"){
-        if (next_seed = "" || A_NowUTC - timestamp > 30) {
+        if (next_seed = "" || (A_NowUTC - timestamp > 30 && !resetFromWorld)) {
             ComObjCreate("SAPI.SpVoice").Speak("Searching")
             output := GenerateSeed()
             next_seed := output["seed"]
@@ -86,7 +86,7 @@ GetSeed(){
     WinGetPos, X, Y, W, H, Minecraft
     WinGetActiveTitle, Title
     IfNotInString Title, player
-        FindSeed()()
+        FindSeed(False)()
     else {
         ExitWorld()
         Loop {
@@ -97,7 +97,7 @@ GetSeed(){
                     Sleep, 100
                     IfWinActive, Minecraft 
                     {
-                        FindSeed()()
+                        FindSeed(True)()
                         break
                     }
                 }
@@ -141,21 +141,22 @@ FSGCreateWorld(){
 }
 
 FSGFastCreateWorld(){
+    delay := 45 ; Fine tune for your PC/comfort level (Each screen needs to be visible for at least a frame)
     SetKeyDelay, 0
     send {Esc}{Esc}{Esc}
     send {Tab}{Enter}
-    SetKeyDelay, 45 ; Fine tune for your PC/comfort level
+    SetKeyDelay, delay 
     send {Tab}
     SetKeyDelay, 0
     send {Tab}{Tab}{Enter}
     send ^a
     send ^v
     send {Tab}{Tab}{Enter}{Enter}{Enter}{Tab}{Tab}{Tab}
-    SetKeyDelay, 45 ; Fine tune for your PC/comfort level
+    SetKeyDelay, delay
     send {Tab}{Enter}
     SetKeyDelay, 0
     send {Tab}{Tab}{Tab}^v{Shift}+{Tab}
-    SetKeyDelay, 45 ; Fine tune for your PC/comfort level
+    SetKeyDelay, delay
     send {Shift}+{Tab}{Enter}
 }
 
