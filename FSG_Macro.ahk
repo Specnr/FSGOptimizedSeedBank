@@ -89,6 +89,7 @@ GetSeed(){
         FindSeed(False)()
     else {
         ExitWorld()
+	    sleep, 100
         Loop {
             IfWinActive, Minecraft 
             {
@@ -107,6 +108,14 @@ GetSeed(){
 }
 
 FSGCreateWorld(){
+    Loop, Files, %SavesDirectory%*, D
+    {
+        _Check :=SubStr(A_LoopFileName,1,1)
+        If (_Check!="_")
+        {
+            FileMoveDir, %SavesDirectory%%A_LoopFileName%, %SavesDirectory%_oldWorlds\%A_LoopFileName%%A_NowUTC%, R
+        }
+    }
     Send, {Esc}{Esc}{Esc}
     Send, `t
     Send, {enter}
