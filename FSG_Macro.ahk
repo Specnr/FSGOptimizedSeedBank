@@ -89,7 +89,7 @@ GetSeed(){
         FindSeed(False)()
     else {
         ExitWorld()
-	    sleep, 100
+        sleep, 100
         Loop {
             IfWinActive, Minecraft 
             {
@@ -108,14 +108,6 @@ GetSeed(){
 }
 
 FSGCreateWorld(){
-    Loop, Files, %SavesDirectory%*, D
-    {
-        _Check :=SubStr(A_LoopFileName,1,1)
-        If (_Check!="_")
-        {
-            FileMoveDir, %SavesDirectory%%A_LoopFileName%, %SavesDirectory%_oldWorlds\%A_LoopFileName%%A_NowUTC%, R
-        }
-    }
     Send, {Esc}{Esc}{Esc}
     Send, `t
     Send, {enter}
@@ -150,14 +142,6 @@ FSGCreateWorld(){
 }
 
 FSGFastCreateWorld(){
-    Loop, Files, %SavesDirectory%*, D
-    {
-        _Check :=SubStr(A_LoopFileName,1,1)
-        If (_Check!="_")
-        {
-            FileMoveDir, %SavesDirectory%%A_LoopFileName%, %SavesDirectory%_oldWorlds\%A_LoopFileName%%A_NowUTC%, R
-        }
-    }
     delay := 45 ; Fine tune for your PC/comfort level (Each screen needs to be visible for at least a frame)
     SetKeyDelay, 0
     send {Esc}{Esc}{Esc}
@@ -179,7 +163,17 @@ FSGFastCreateWorld(){
 
 ExitWorld()
 {
-    send {Esc}+{Tab}{Enter}
+    SetKeyDelay, 0
+    send {Esc}{Shift}+{Tab}{Enter}
+    SetKeyDelay, 50
+    Loop, Files, %SavesDirectory%*, D
+    {
+        _Check :=SubStr(A_LoopFileName,1,1)
+        If (_Check!="_")
+        {
+            FileMoveDir, %SavesDirectory%%A_LoopFileName%, %SavesDirectory%_oldWorlds\%A_LoopFileName%%A_NowUTC%, R
+        }
+    }
 }
 
 #IfWinActive, Minecraft
