@@ -22,6 +22,8 @@ Running:
 
 - Run the FSG_Macro.ahk, load into Minecraft and press F10. Latest verification details will be found in fsg_seed_token.txt
 
+NOTE: If lagging too much run Slower_FSG_Macro.ahk
+
 ## Credit
 
 - @AndyNovo the code behind the actual logic https://github.com/AndyNovo/fsgsrc
