@@ -6,6 +6,18 @@ from multiprocessing import Process
 import subprocess
 import signal
 
+import socket
+
+old_getaddrinfo = socket.getaddrinfo
+
+
+def new_getaddrinfo(args, *kwargs):
+    resps = old_getaddrinfo(args, *kwargs)
+    return [resp for resp in resps if resp[0] == socket.AF_INET]
+
+
+socket.getaddrinfo = new_getaddrinfo
+
 
 def display_seed(verif_data, seed):
     print(f"Seed Found({verif_data['iso']}): {seed}")
