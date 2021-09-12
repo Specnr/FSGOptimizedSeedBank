@@ -13,7 +13,7 @@ def display_seed(verif_data, seed):
 def run_seed(filter):
     seed = ""
     while seed == "":
-        resp = requests.get(f"http://fsg.gel.webfactional.com?filter={filter}")
+        resp = requests.get(f"https://fsg.opalstacked.com/?filter={filter}")
         res_json = resp.json()
         sseed = res_json.get("struct")
         sclass = res_json.get("class")
