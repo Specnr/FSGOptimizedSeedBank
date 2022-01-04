@@ -1,6 +1,6 @@
 # FSGOptimizedSeedBank
 
-An efficient, single-click implementation for the FSG seed bank
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/specnr)
 
 ## Instructions
 
